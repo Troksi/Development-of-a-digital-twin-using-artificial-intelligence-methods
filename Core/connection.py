@@ -59,6 +59,7 @@ def get_gpt_answer(prompt="Who is the CEO of Google?"):
         organization = ''
         embedding = Embedding(openai_key,organization,MODEL_3_5)
         responses = embedding.get_response(prompt)
+        print(responses)
         return responses.choices[0].message.content
     except Exception as e:
         print(f'WARING: in get gpt answer: {e}')
