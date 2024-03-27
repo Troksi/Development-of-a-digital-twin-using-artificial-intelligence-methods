@@ -7,7 +7,6 @@ parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
 sys.path.append(parent_dir)
 
 from constants import YOUR_OPENAI_API_KEY, YOUR_OPENAI_API_ORGANIZATION, MODEL_3_5
-from logger import gpt_logger, gpt_debug_logger
 
 class Embedding():
     
@@ -43,34 +42,27 @@ class Embedding():
         temperature=0,
         )
         return response
-        
-    def get_response_with_history(self, history, prompt, role="user"):
-        messages = history
-        messages.append({"role": role, "content": prompt})
+    
+    def get_description_of_company(self, prompts):
+        responses = []
+        for prompt in prompts:
+            response = self.get_embedding(prompt)
+            responses.append(response)
+        return responses
 
-        response = openai.ChatCompletion.create(
-        model=self.model,
-        messages=messages,
-        temperature=0,
-        )
-        return response
-
-def get_gpt_answer(prompt="Who is the CEO of Google?", history=[]):
+def get_gpt_answer(prompt="Who is the CEO of Google?"):
     if len(prompt) >= 15000:
         print('WARING: prompt exceeds 15000 characters')
-        gpt_logger.warring('WARING: prompt exceeds 15000 characters')
         
     try:
         openai_key =  YOUR_OPENAI_API_KEY
         organization = ''
         embedding = Embedding(openai_key,organization,MODEL_3_5)
-        # responses = embedding.get_response(prompt)
-        responses = embedding.get_response_with_history(history=history,prompt=prompt)
-        gpt_debug_logger.debug(f'USER: {prompt}')
-        gpt_debug_logger.debug(f'GPT: {responses.choices[0].message.content}')
-        print(f'USER: {prompt}')
-        print(f'GPT: {responses.choices[0].message.content}')
+        responses = embedding.get_response(prompt)
         return responses.choices[0].message.content
     except Exception as e:
         print(f'WARING: in get gpt answer: {e}')
-        gpt_logger.warning(f'WARING: in get gpt answer: {e}')
+
+    # print(get_gpt_answer())
+    # print(f"All answer:\n{responses}" )
+    # letter_by_letter_print(f"Short answer: {responses.choices[0].message.content}")
