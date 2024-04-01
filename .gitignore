@@ -6,3 +6,8 @@ logs
 messages
 main.py
 archive.zip
+*.pdf
+lomonosov_perepiska.txt
+lomonosov_perepiska_mod.txt
+result_vdb_*.txt
+vdb_config.json
