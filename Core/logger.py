@@ -43,3 +43,17 @@ bot_debug_handler = logging.FileHandler(f'{daily_log_dir}\\bot_debug.log', 'a', 
 bot_debug_handler.setLevel(logging.DEBUG)
 bot_debug_handler.setFormatter(logger_message_format)
 bot_debug_logger.addHandler(bot_debug_handler)
+
+vdb_logger = logging.getLogger(name='vdb')
+vdb_logger.setLevel(logging.INFO)
+vdb_handler = logging.FileHandler(f'{daily_log_dir}\\vdb.log', 'a', 'utf-8')
+vdb_handler.setLevel(logging.INFO)
+vdb_handler.setFormatter(logger_message_format)
+vdb_logger.addHandler(vdb_handler)
+
+vdb_debug_logger = logging.getLogger(name='vdb_debug')
+vdb_debug_logger.setLevel(logging.DEBUG)
+vdb_debug_handler = logging.FileHandler(f'{daily_log_dir}\\vdb_debug.log', 'a', 'utf-8')
+vdb_debug_handler.setLevel(logging.DEBUG)
+vdb_debug_handler.setFormatter(logger_message_format)
+vdb_debug_logger.addHandler(vdb_debug_handler)
