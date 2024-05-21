@@ -11,3 +11,7 @@ lomonosov_perepiska.txt
 lomonosov_perepiska_mod.txt
 result_vdb_*.txt
 vdb_config.json
+pages_*.txt
+id_*.txt
+venv4langchain
+*.todo
