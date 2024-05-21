@@ -57,3 +57,10 @@ vdb_debug_handler = logging.FileHandler(f'{daily_log_dir}\\vdb_debug.log', 'a', 
 vdb_debug_handler.setLevel(logging.DEBUG)
 vdb_debug_handler.setFormatter(logger_message_format)
 vdb_debug_logger.addHandler(vdb_debug_handler)
+
+utiles_logger = logging.getLogger(name='utiles')
+utiles_logger.setLevel(logging.INFO)
+utiles_handler = logging.FileHandler(f'{daily_log_dir}\\utiles.log', 'a', 'utf-8')
+utiles_handler.setLevel(logging.INFO)
+utiles_handler.setFormatter(logger_message_format)
+utiles_logger.addHandler(utiles_handler)

@@ -1,6 +1,6 @@
-import fitz  # PyMuPDF
+import fitz
 
-def pdf_to_text(pdf_path, txt_path):
+def pdf_to_text(pdf_path, txt_path) -> None:
     # Открываем PDF файл
     document = fitz.open(pdf_path)
 

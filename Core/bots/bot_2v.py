@@ -11,10 +11,19 @@ from prompt import Prompt
 from constants import YOUR_BOT_TOCKEN
 from logger import bot_logger, bot_debug_logger, gpt_logger, gpt_debug_logger
 from messagehistory import MessageHistory
+from prompt_split import prompts_split 
+from vbd_manager import VDBManager
+import vdb
+
+parent_dir = os.path.abspath(os.path.join(parent_dir, os.pardir))
+sys.path.append(parent_dir)
+
+from Utiles.splitFile import split_text_by_paragraph
+
 
 class Bot_status(object):
     isStartConversation = False
-    actor = Prompt.ACTOR
+    actor = Prompt.ACTOR_YariyVagin
 
     def __init__(self):
         isStartConversation = False
@@ -27,9 +36,14 @@ try:
 
     bot = telebot.TeleBot(YOUR_BOT_TOCKEN)
     bot_state = Bot_status
+
+    VDBManager().run_manager()    
+    vbd = vdb.VectorStore()
+
     @bot.message_handler(content_types=['text'])
     def get_text_messages(message):
         try:
+            responses = ''
             # louding history 
             message_history = MessageHistory(csv_file=f'{message.from_user.username}.csv')
 
@@ -48,8 +62,6 @@ try:
                 
                 # set answer to history
                 message_history.toNote('assistant' ,responses)
-            elif not bot_state.isStartConversation and message.text == "/setActor":
-                 bot.register_next_step_handler(message, set_actor)
             elif bot_state.isStartConversation and message.text == "/Stop":
                 bot_state.isStartConversation = False
                 message_history.move_to_archive()
@@ -57,25 +69,37 @@ try:
             elif bot_state.isStartConversation:
                  # set question to history
                 message_history.toNote( message.from_user.username, message.text)
+                # preparing the query
+                Prompt.LOOK_QUESTION 
+                Prompt.GIVE_ANSWER_LIKE
 
-                responses = get_gpt_answer(message.text)
+                prepared_question = Prompt.GIVE_TENTATIVE_ANSWER  + message.text
+                query = get_gpt_answer(prepared_question)
+                products_from_vbd = vbd.query(query)
+                
+                bot_debug_logger.debug(f'Bot sistem: {prepared_question}')
+                bot_debug_logger.debug(f'GPT: {query}')
+                bot_debug_logger.debug(f'VDB: {products_from_vbd[0].page_content}')
+
+                prepared_question = f'{Prompt.LOOK_QUESTION} {message.text} {Prompt.GIVE_ANSWER_LIKE} {products_from_vbd[0].page_content} '
+                split_prepared_question = split_text_by_paragraph(prepared_question)
+                split_prepared_question_for_hint = prompts_split(split_prepared_question)
+                
+                for prepared_question in split_prepared_question_for_hint:
+                    responses = get_gpt_answer(prepared_question)
+                    bot_debug_logger.debug(f'Bot sistem: {prepared_question}')
+                    bot_debug_logger.debug(f'GPT: {responses}')
+                
                  # set answer to messager
                 bot.send_message(message.from_user.id, responses)
 
-                bot_debug_logger.debug(f'USER: {message.text}')
-                bot_debug_logger.debug(f'GPT: {responses}')
                  # set answer to history
                 message_history.toNote('assistant' ,responses)
             else:
-                bot.send_message(message.from_user.id, "Приветствую! Для начала диалога напиши /Go.\nДля прекращения диалога /Stop\nДля назначения своего персонажа /setActor")   
+                bot.send_message(message.from_user.id, "Приветствую! Для начала диалога напиши /Go.\nДля прекращения диалога /Stop")   
         except Exception as e:
             print(e)
             bot_logger.warning(e)
-    
-    def set_actor(message):
-        bot_state.actor = get_gpt_answer(Prompt.SEARCH_ACTOR + message.text)
-        bot_debug_logger.debug(f'GPT: {bot_state.actor}')
-        bot_debug_logger.info(f'Set actor:{bot_state.actor}')
 
 
     bot.polling(none_stop=True, interval=0)    

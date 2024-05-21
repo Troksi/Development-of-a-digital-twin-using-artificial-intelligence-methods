@@ -1,5 +1,23 @@
 
 class Prompt:
+
+    def split_text(text: str) -> list[str]:
+        if len(text) <= 15000:                  
+            return [text]
+        else:
+            paragraphs = text.split('.')
+            paragraphs = [s for s in paragraphs if s.strip()]
+            result = []
+            temp_text = ''
+            for paragraph in paragraphs:
+                if len(temp_text) + len(paragraph) + 1 <= 15000:
+                    temp_text += paragraph + '.'
+                else:
+                    result.append(temp_text)
+                    temp_text = paragraph + '.'
+            if temp_text:
+                result.append(temp_text)
+            return result
     
     RULS = """"Вот правила, которым ты должен следовать:
     1. Ты общаешься через чат. 
@@ -19,6 +37,55 @@ class Prompt:
     Статус: В социальном отношении, Сократ не был членом высшего слоя общества, а скорее представителем средних слоев. Он не стремился к богатству или власти, а сконцентрировался на развитии своего ума и поиске истины.
     Увлечения: Сократ был увлечен философией, этикой и вопросами морали. Он проводил много времени в обсуждении и анализе таких тем, как справедливость, добродетель и цель жизни. Кроме того, он уделял внимание наблюдению за природой и поведением людей в обществе.
     """
+    ACTOR_YariyVagin ="""Character: Юрий Робертович Вагин
+    Внешность:
+    Конкретные детали о внешности Юрия Вагина не указаны в доступных источниках. Однако, его можно увидеть на фотографиях и видео на его YouTube-канале и сайте, где он часто выступает в качестве лектора и ведущего.
+    Характер:
+    В своих выступлениях и текстах Юрий Вагин проявляет себя как энергичный и увлеченный человек. Он активно вовлекается в психологическую практику, исследования и просветительскую деятельность, что говорит о его целеустремленности и желании помогать людям.
+    Профессия:
+    Психотерапевт, кандидат медицинских наук.
+    Директор психологического центра.
+    Автор множества книг по психологии и психотерапии.
+    Статус:
+    Известный специалист в области психотерапии и психологии.
+    Активно занимается научными исследованиями, выступает на конференциях, ведет лекции и мастер-классы.
+    Увлечения:
+    Психология и психотерапия.
+    Образовательная и просветительская деятельность.
+    Написание книг и проведение онлайн-конференций и мастер-классов.
+    """
     SEARCH_ACTOR = """Персонажем я называю любую известную личность.Дай описание персонажа такие как:
     Внешность,характер, профессия, статус, увлечении,дату жизни и смерти.
     Для персонажа:"""
+    LOOK_QUESTION ="""Дай ответ для этого вопроса: """
+    GIVE_ANSWER_LIKE = """И повтори стиль как здесь: """
+    GIVE_TENTATIVE_ANSWER = """Дай предположительный ответ на этот вопрос: """
+
+
+if __name__ == "__main__":
+    pass
+    # prompt = Prompt
+    # text_short = "Это короткий текст."
+    # expected_short = ["Это короткий текст."]
+    # assert prompt.split_text(text_short) == expected_short, "Тест на короткий текст не пройден"
+    
+    # text_multiple_paragraphs = "Первый абзац. Второй абзац. Третий абзац."
+    # expected_multiple_paragraphs = ["Первый абзац. Второй абзац. Третий абзац."]
+    # assert prompt.split_text(text_multiple_paragraphs) == expected_multiple_paragraphs, "Тест на текст с несколькими абзацами не пройден"
+   
+    # text_long_single_paragraph = "Текст с длиной больше 15000 символов. " * 1000
+    # print(len(text_long_single_paragraph))
+    # expected_long_single_paragraph = ["Текст с длиной больше 15000 символов. " * 394,"Текст с длиной больше 15000 символов. " * 394,"Текст с длиной больше 15000 символов. " * 212]
+    # print(len(expected_long_single_paragraph[0]))
+    # ans = prompt.split_text(text_long_single_paragraph)
+
+    # with open('1.txt', 'w', newline='', encoding='utf-8') as file:
+    #         file.write(f" '{ans}' \n\n '{expected_long_single_paragraph}'")
+    # for i in range(len(ans)):
+    #     print(f"a: {len(ans[i])} r: {len(expected_long_single_paragraph[i])}")
+    # #print(ans)
+    # #assert prompt.split_text(text_long_single_paragraph) == expected_long_single_paragraph, "Тест на текст с одним длинным абзацем не пройден"
+    
+    # text_empty = ""
+    # expected_empty = [""]
+    # assert prompt.split_text(text_empty) == expected_empty, "Тест на пустой текст не пройден"

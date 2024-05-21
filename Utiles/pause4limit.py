@@ -1,5 +1,6 @@
 import time
 
+
 class PauseForLimit:
     def __init__(self, limit, pause_time=20):
         self.count = 0
@@ -17,10 +18,14 @@ class PauseForLimit:
 # for i in range(10):
 #     print(i)
 #     function_caller.reg_stap()
-dict_t={}
-for i in range(10):
-    dict_t[i]=i*10
 
-for i,el in enumerate(dict_t.values()):
-    print(i,el)
-print(dict_t)
+# function_caller = PauseForLimit(3,5)
+
+# dict_t={}
+# for i in range(10):
+#     dict_t[i]=i*10
+
+# for i,el in enumerate(dict_t.values()):
+#     function_caller.reg_stap()
+#     print(i,el)
+# print(dict_t)
