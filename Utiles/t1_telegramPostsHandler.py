@@ -37,8 +37,8 @@ def save_processed_json(processed_data, output_path):
         json.dump(processed_data, file, ensure_ascii=False, indent=4)
 
 # Example usage
-input_file = 'result.json'
-output_file = 'processed_result.json'
+input_file = 'result_OkYasno.json'
+output_file = 'processed_result_OkYasno.json'
 
 processed_data = process_json(input_file)
 save_processed_json(processed_data, output_file)

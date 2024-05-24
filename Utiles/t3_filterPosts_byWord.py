@@ -23,7 +23,7 @@ def find_and_move_files(directory, keyword):
 
 
 # Example usage
-input_directory = 'telegram_messages'
+input_directory = 'telegram_messages_OkYasno'
 search_keyword = input('Слово для поиска: ')
 
 find_and_move_files(input_directory, search_keyword)

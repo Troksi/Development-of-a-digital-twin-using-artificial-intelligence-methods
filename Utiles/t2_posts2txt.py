@@ -35,7 +35,7 @@ def save_messages_to_txt(file_path, output_dir):
                 text_file.write(f"{date}\n{clean_text_content}")
 
 # Example usage
-input_file = 'processed_result.json'
-output_directory = 'telegram_messages'
+input_file = 'processed_result_OkYasno.json'
+output_directory = 'telegram_messages_OkYasno'
 
 save_messages_to_txt(input_file, output_directory)

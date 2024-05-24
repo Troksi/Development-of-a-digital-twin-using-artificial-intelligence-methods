@@ -55,21 +55,20 @@ class Embedding():
         )
         return response
 
-def get_gpt_answer(prompt="Who is the CEO of Google?", history=[], role='user'):
+def get_gpt_answer(prompt="Who is the CEO of Google?", history=[], role='user', organization = '', model=MODEL_3_5):
     if len(prompt) >= 15000:
         print('WARING: prompt exceeds 15000 characters')
         gpt_logger.warring('WARING: prompt exceeds 15000 characters')
         
     try:
-        openai_key =  YOUR_OPENAI_API_KEY
-        organization = ''
-        embedding = Embedding(openai_key,organization,MODEL_3_5)
-        # responses = embedding.get_response(prompt)
+        openai_key =  YOUR_OPENAI_API_KEY        
+        embedding = Embedding(openai_key,organization,model)
+        # responses = embedding.get_response(prompt) # without history
         responses = embedding.get_response_with_history(history=history,prompt=prompt, role=role)
         gpt_debug_logger.debug(f'USER: {prompt}')
-        gpt_debug_logger.debug(f'GPT: {responses.choices[0].message.content}')
+        gpt_debug_logger.debug(f'GPT-{model}: {responses.choices[0].message.content}')
         print(f'USER: {prompt}')
-        print(f'GPT: {responses.choices[0].message.content}')
+        print(f'GPT-{model}: {responses.choices[0].message.content}')
         return responses.choices[0].message.content
     except Exception as e:
         print(f'WARING: in get gpt answer: {e}')

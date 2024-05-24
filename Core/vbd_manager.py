@@ -55,7 +55,7 @@ if __name__ == "__main__":
     # Example use bd
     VDBManager().run_manager()
     vbd = vdb.VectorStore()
-    query = 'красота природы'
+    query = 'кода все валится из рук и не получается'
     products_from_vbd = vbd.query(query)
     
     nomber_key = 0

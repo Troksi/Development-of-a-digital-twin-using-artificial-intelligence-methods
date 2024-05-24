@@ -64,3 +64,10 @@ utiles_handler = logging.FileHandler(f'{daily_log_dir}\\utiles.log', 'a', 'utf-8
 utiles_handler.setLevel(logging.INFO)
 utiles_handler.setFormatter(logger_message_format)
 utiles_logger.addHandler(utiles_handler)
+
+fine_tune_logger = logging.getLogger(name='fine_tune')
+fine_tune_logger.setLevel(logging.INFO)
+fine_tune_handler = logging.FileHandler(f'{daily_log_dir}\\fine_tune.log', 'a', 'utf-8')
+fine_tune_handler.setLevel(logging.INFO)
+fine_tune_handler.setFormatter(logger_message_format)
+fine_tune_logger.addHandler(fine_tune_handler)

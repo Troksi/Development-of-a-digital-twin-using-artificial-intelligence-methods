@@ -21,3 +21,8 @@ processed_result.json
 2
 1.txt
 ERROR
+*.jsonl
+venv_yandex
+telegram_*
+result_*.json
+processed_result_*.json
